@@ -25,6 +25,7 @@ main {
     width: 100%;
     height: 40px;
     padding-left: 20px;
+    outline: none;
 }
 
 #searchBar {
@@ -69,12 +70,18 @@ main {
     justify-content: space-between;
     cursor: pointer;
     transform-origin: top left;
+    position: relative;
+    width: 170px;
+    height: 55px;
+    
 }
 
 .arrow {
     margin-left: 30px;
     transform: rotate(90deg);
     font-weight: bold;
+    position: absolute;
+    right: 15px;
 }
 
 #blue {
@@ -177,6 +184,309 @@ ul {
 
 
 
-.boxFilter:hover {
+/*.boxFilter:hover {
     animation: filterGrow 1000ms forwards;
+}*/
+
+
+#ingredients {
+    width: 667px;
+    height: 397px;
+    background-color: #3282F7;
+    overflow: auto;
+    
+}
+#ingredients ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#ingredients li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+#appareils {
+    width: 667px;
+    height: 397px;
+    background-color: #68D9A4;
+    overflow: auto;
+}
+#appareils ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#appareils li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+#ustensiles {
+    width: 667px;
+    height: 397px;
+    background-color: #ED6454;
+    overflow: auto;
+}
+#ustensiles ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#ustensiles li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+/**********************************************/
+
+#dropdown-menu2 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: red;
+}
+
+#box12 {
+    width: 177px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+}
+
+#ingredients2 {
+    background-color: #3282F7;
+    width: 100%;
+    padding-top: 17px;
+    padding-left: 10px;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+}
+
+#arrow12 {
+    transform: rotate(90deg);
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    padding: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+#box22 {
+    width: 177px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+}
+
+#appliances2 {
+    background-color: #68D9A4;
+    width: 100%;
+    padding-top: 17px;
+    padding-left: 10px;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+}
+
+#arrow22 {
+    transform: rotate(90deg);
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    padding: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+#box32 {
+    width: 177px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+}
+
+#ustensils2 {
+    background-color: #ED6454;
+    width: 100%;
+    padding-top: 17px;
+    padding-left: 10px;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+}
+
+#arrow32 {
+    transform: rotate(90deg);
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    padding: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+
+#filter input {
+    width: 500px;
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.712);
+    font-weight: bold;
+  }
+
+
+
+
+
+.big-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#list-ingredients2 {
+    display: none;
+    background-color: #3282F7;
+    width: 667px;
+    height: 342px;
+    border-radius: 0 0 4px 4px;
+    overflow: auto;
+}
+
+#list-ingredients2 ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#list-ingredients2 li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+
+#list-appliances2 {
+    display: none;
+    background-color: #68D9A4;
+    width: 667px;
+    height: 342px;
+    border-radius: 0 0 4px 4px;
+    overflow: auto;
+}
+
+#list-appliances2 ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#list-appliances2 li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+
+
+#list-ustensils2 {
+    display: none;
+    background-color: #ED6454;
+    width: 667px;
+    height: 342px;
+    border-radius: 0 0 4px 4px;
+    overflow: auto;
+}
+
+#list-ustensils2 ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#list-ustensils2 li {
+    color: white;
+    font-weight: normal;
+    width: 222px;
+    cursor: pointer;
+}
+
+
+
+#innerFilter {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 20px;
+}
+
+
+#innerFilter h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+/*
+#innerFilter h3:first-letter {
+    text-transform: uppercase;
+}*/
+
+#innerFilter span {
+    color: white;
+    border: 2px solid white;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    border-radius: 15px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.ingredientsColor {
+    background-color: #3282F7;
+}
+
+.appliancesColor {
+    background-color: #68D9A4;
+}
+
+.ustensilsColor {
+    background-color: #ED6454;
 }
