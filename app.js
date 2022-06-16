@@ -311,7 +311,7 @@ function algoFunctionnalRecipes() {
             })
         })
     }
-    console.log(filterTab)
+    //console.log(filterTab)
     
 
     const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
@@ -512,9 +512,13 @@ let filterClassName;
 let filterTextContent;
 
 function removeFilter(Span) {
-    //console.log(Span)
-    Span.path[1].remove();
-    //numberOfFilter--;
+    console.log(Span)
+    //firefox
+    Span.composedPath()[1].remove();
+
+    //chrome
+    //Span.path[1].remove();
+
     numberOfFilter = 0;
     
     tabFilter = []
@@ -525,8 +529,47 @@ function removeFilter(Span) {
     tabFilterAppliances = []
     tabFilterIngredients = []
 
+    if (Span.composedPath()[2].childNodes.length == 0) {
 
-    if (Span.path[2].childNodes.length == 0) {
+        article.innerHTML = ""
+
+        tabRecipes = []
+        tabFilterLoading = [];
+        filterOn = 0;
+
+        app.main();
+        app.ingredientsFilter();
+        app.appliancesFilter();
+        app.ustensilsFilter();
+
+    } else {
+
+        let i = 0;
+        let NumberOfFilterlength = Span.composedPath()[2].childNodes.length;
+
+        while (i < NumberOfFilterlength) {
+
+            let string = Span.composedPath()[2].childNodes[i].innerText.slice(0, -2);
+
+            filterTextContent = string;
+
+            filterClassName = Span.composedPath()[2].childNodes[i].className
+
+            addFilterAfterRemove()
+
+            i++;
+        }
+
+        i = 0;
+        while (i < NumberOfFilterlength) {
+            //console.log(Span.path[2].childNodes[i])
+            Span.composedPath()[2].childNodes[0].remove()
+            i++;
+        }
+    }
+
+
+    /*if (Span.path[2].childNodes.length == 0) {
 
         article.innerHTML = ""
 
@@ -563,7 +606,7 @@ function removeFilter(Span) {
             Span.path[2].childNodes[0].remove()
             i++;
         }
-    }
+    }*/
 }
 
 function addFilterAfterRemove() {
