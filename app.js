@@ -253,18 +253,6 @@ function checkNumberChar() {
     }
 }
 
-/*function algoFunctionnalRecipes() {
-
-    const filterTab = tabRecipes.filter(e => e.name.toLowerCase().includes(input.value.toLowerCase()));
-
-
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
-
-    mapfilterTab.forEach(e => innerRecipe(e))
-
-    tabRecipes.forEach(e => catchUl(e))   
-
-}*/
 
 /*******************************Test Algo*************************************/
 let filterOn = 0
@@ -274,113 +262,139 @@ function algoFunctionnalRecipes() {
     let filterTab = []
 
     if (filterOn == 0) {
-        
-        tabRecipes.forEach(e => {
+
+        for(x = 0; x < tabRecipes.length; x++) {
             let i = 0;
-            if (e.name.toLowerCase().includes(input.value.toLowerCase())) {
-                filterTab.push(e)
+            if (tabRecipes[x].name.toLowerCase().includes(input.value.toLowerCase())) {
+                filterTab.push(tabRecipes[x])
                 i++;
-            } else if (e.description.toLowerCase().includes(input.value.toLowerCase())) {
-                filterTab.push(e)
+            } else if (tabRecipes[x].description.toLowerCase().includes(input.value.toLowerCase())) {
+                filterTab.push(tabRecipes[x])
                 i++;
             }
-    
-            e.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    //console.log("ok")
+
+            for(y = 0; y < tabRecipes[x].ingredients.length; y++) {
+                if (tabRecipes[x].ingredients[y].ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabRecipes[x])
                 }
-            })
-        })
+            }
+        }        
     } else {
-        tabFilter.forEach(e => {
+
+        for(x = 0; x < tabFilter.length; x++) {
             let i = 0;
-            if (e.name.toLowerCase().includes(input.value.toLowerCase())) {
-                filterTab.push(e)
+            if (tabFilter[x].name.toLowerCase().includes(input.value.toLowerCase())) {
+                filterTab.push(tabFilter[x])
                 i++;
-            } else if (e.description.toLowerCase().includes(input.value.toLowerCase())) {
-                filterTab.push(e)
+            } else if (tabFilter[x].description.toLowerCase().includes(input.value.toLowerCase())) {
+                filterTab.push(tabFilter[x])
                 i++;
             }
-    
-            e.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    //console.log("ok")
+
+            for(y = 0; y < tabFilter[x].ingredients.length; y++) {
+                if (tabFilter[x].ingredients[y].ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabFilter[x])
                 }
-            })
-        })
+            }
+        }
     }
-    //console.log(filterTab)
     
+    for(i = 0; i < filterTab.length; i++) {
 
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+filterTab[i].name+'</h2><h5 class="recipeTime">'+filterTab[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+filterTab[i].x+'"></ul></div><div class="instruction">'+filterTab[i].description+'</div></div></div></article>'
 
-    mapfilterTab.forEach(e => innerRecipe(e))
+        innerRecipe(mapfilterTab)
+    }
 
-    tabRecipes.forEach(e => catchUl(e))
+    /*const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')*/
+
+    //mapfilterTab.forEach(e => innerRecipe(e))
+
+    //tabRecipes.forEach(e => catchUl(e))
+
+    for(i = 0;i < tabRecipes.length; i++) {
+
+        const ulID= tabRecipes[i]
+        catchUl(ulID)
+    }
 
     /*****************************Filters**********************************/
 
-    filterTab.forEach(e => innerAppliances(e))
-    filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
-    filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
+    for(i = 0; i < filterTab.length; i++) {
+
+        const filterTabAppliance = filterTab[i];
+        
+        innerAppliances(filterTabAppliance)
+
+        for(j = 0; j < filterTab[i].ingredients.length; j++) {
+
+            const filterTabIngredients = filterTab[i].ingredients[j].ingredient;
+            innerIngredients(filterTabIngredients)
+        }
+
+        for(j = 0; j < filterTab[i].ustensils.length; j++) {
+            
+            const filterTabUstensils = filterTab[i].ustensils[j];
+            innerUstensils(filterTabUstensils)
+        }
+    }
+
+    //filterTab.forEach(e => innerAppliances(e))
+    //filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
+    //filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
 }
 /*****************************************************************************/
 
 /*****************************Recipes Card*************************************/
 let ul;
 
-function catchUl(e) {
+function catchUl(ulID) {
 
-    if (document.querySelector("#ul"+e.x+"")) {
-        ul = document.querySelector("#ul"+e.x+"")
-        e.ingredients.forEach(el => innerUl(el))
+    if (document.querySelector("#ul"+ulID.x+"")) {
+        ul = document.querySelector("#ul"+ulID.x+"")
+
+        for(j = 0; j < ulID.ingredients.length; j++) {
+            ul.innerHTML += '<li>'+ulID.ingredients[j].ingredient+'</li>'
+        }
     }
 }
 
-function innerUl(el) {
+function innerRecipe(mapfilterTab) {
 
-    ul.innerHTML += '<li>'+el.ingredient+'</li>'
+    article.innerHTML += mapfilterTab;
 }
 
-function innerRecipe(e) {
-
-    article.innerHTML += e;
-}
 /*****************************************************************************/
 /********************************Filters cards********************************/
 let tabInnerFilterWithSearch = []
 
-function innerIngredients(ingredients) {
+function innerIngredients(filterTabIngredients) {
 
-    if (tabInnerFilterWithSearch.includes(ingredients.ingredient)) {
-
-    } else {
-        filterIngredients.innerHTML += '<li class="ingredientClass">'+ingredients.ingredient+'</li>';
-        tabInnerFilterWithSearch.push(ingredients.ingredient)
-    }
-
-    
-}
-
-function innerAppliances(e) {
-
-    if (tabInnerFilterWithSearch.includes(e.appliance)) {
+    if (tabInnerFilterWithSearch.includes(filterTabIngredients)) {
 
     } else {
-        filterAppliance.innerHTML += '<li class="applianceClass">'+e.appliance+'</li>';
-        tabInnerFilterWithSearch.push(e.appliance)
+        filterIngredients.innerHTML += '<li class="ingredientClass">'+filterTabIngredients+'</li>';
+        tabInnerFilterWithSearch.push(filterTabIngredients)
     }
 }
 
-function innerUstensils(ustensils) {
+function innerAppliances(filterTabAppliance) {
 
-    if (tabInnerFilterWithSearch.includes(ustensils)) {
+    if (tabInnerFilterWithSearch.includes(filterTabAppliance.appliance)) {
 
     } else {
-        filterUstensils.innerHTML += '<li class="ustensilsClass">'+ustensils+'</li>';
-        tabInnerFilterWithSearch.push(ustensils)
+        filterAppliance.innerHTML += '<li class="applianceClass">'+filterTabAppliance.appliance+'</li>';
+        tabInnerFilterWithSearch.push(filterTabAppliance.appliance)
+    }
+}
+
+function innerUstensils(filterTabUstensils) {
+
+    if (tabInnerFilterWithSearch.includes(filterTabUstensils)) {
+
+    } else {
+        filterUstensils.innerHTML += '<li class="ustensilsClass">'+filterTabUstensils+'</li>';
+        tabInnerFilterWithSearch.push(filterTabUstensils)
     }
     
     
@@ -512,12 +526,8 @@ let filterClassName;
 let filterTextContent;
 
 function removeFilter(Span) {
-    console.log(Span)
-    //firefox
-    Span.composedPath()[1].remove();
 
-    //chrome
-    //Span.path[1].remove();
+    Span.composedPath()[1].remove();
 
     numberOfFilter = 0;
     
@@ -562,58 +572,17 @@ function removeFilter(Span) {
 
         i = 0;
         while (i < NumberOfFilterlength) {
-            //console.log(Span.path[2].childNodes[i])
+
             Span.composedPath()[2].childNodes[0].remove()
             i++;
         }
     }
-
-
-    /*if (Span.path[2].childNodes.length == 0) {
-
-        article.innerHTML = ""
-
-        tabRecipes = []
-        tabFilterLoading = [];
-        filterOn = 0;
-
-        app.main();
-        app.ingredientsFilter();
-        app.appliancesFilter();
-        app.ustensilsFilter();
-
-    } else {
-
-        let i = 0;
-        let NumberOfFilterlength = Span.path[2].childNodes.length;
-
-        while (i < NumberOfFilterlength) {
-
-            let string = Span.path[2].childNodes[i].innerText.slice(0, -2);
-
-            filterTextContent = string;
-
-            filterClassName = Span.path[2].childNodes[i].className
-
-            addFilterAfterRemove()
-
-            i++;
-        }
-
-        i = 0;
-        while (i < NumberOfFilterlength) {
-            //console.log(Span.path[2].childNodes[i])
-            Span.path[2].childNodes[0].remove()
-            i++;
-        }
-    }*/
 }
 
 function addFilterAfterRemove() {
 
     if(filterClassName == "ustensilsColor") {
         innerFilter.innerHTML += '<h3 class="ustensilsColor">'+filterTextContent+' <span> x </span></h3>'
-        //console.log(filterTextContent)
         
         numberOfFilter++;
 
@@ -630,7 +599,7 @@ function addFilterAfterRemove() {
 
     } else if(filterClassName == "appliancesColor") {
         innerFilter.innerHTML += '<h3 class="appliancesColor">'+filterTextContent+' <span> x </span></h3>'
-        //console.log(filterTextContent)
+
         numberOfFilter++;
 
         tabFilterUstensils = []
@@ -647,7 +616,7 @@ function addFilterAfterRemove() {
 
     } else if(filterClassName == "ingredientsColor") {
         innerFilter.innerHTML += '<h3 class="ingredientsColor">'+filterTextContent+' <span> x </span></h3>'
-        //console.log(filterTextContent)
+
         numberOfFilter++;
 
         tabFilterUstensils = []
@@ -689,104 +658,185 @@ function algoFilter() {
 let tabFilterAttribute = 0;
 
 function checkTypeOfFilter() {
-    //console.log(numberOfFilter)
-    //console.log(filterClicked)
 
     if (numberOfFilter == 1) {
-        
-        tabRecipes.forEach(element => {
-            if (element.ustensils.includes(filterClicked)) {
 
-                const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+        for(i = 0; i < tabRecipes.length; i++) {
+
+            if (tabRecipes[i].ustensils.includes(filterClicked)) {
+
+                const CardRecipe = new SearchFilter(tabRecipes[i].name, tabRecipes[i].time, tabRecipes[i].description, tabRecipes[i].ingredients, tabRecipes[i].x, tabRecipes[i].appliance, tabRecipes[i].ustensils);
                 tabFilter.push(CardRecipe);
     
-            } else if (element.appliance.includes(filterClicked)) {
+            } else if (tabRecipes[i].appliance.includes(filterClicked)) {
             
-                const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+                const CardRecipe = new SearchFilter(tabRecipes[i].name, tabRecipes[i].time, tabRecipes[i].description, tabRecipes[i].ingredients, tabRecipes[i].x, tabRecipes[i].appliance, tabRecipes[i].ustensils);
                 tabFilter.push(CardRecipe);
         
             }
-            
-            element.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.includes(filterClicked)) {
+
+            for(j = 0; j < tabRecipes[i].ingredients.length; j++) {
+
+                if (tabRecipes[i].ingredients[j].ingredient.includes(filterClicked)) {
                     
-                    const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+                    const CardRecipe = new SearchFilter(tabRecipes[i].name, tabRecipes[i].time, tabRecipes[i].description, tabRecipes[i].ingredients, tabRecipes[i].x, tabRecipes[i].appliance, tabRecipes[i].ustensils);
                     tabFilter.push(CardRecipe);
     
                 }
-            })
-        })
+            }
+
+        }
     } else if (numberOfFilter > 1) {
-        tabFilter.forEach(element => {
-            if (element.ustensils.includes(filterClicked)) {
+
+        let storageTabfilter = []
+
+        for (i = 0; i < tabFilter.length; i++) {
+            const CardRecipe = new SearchFilter(tabFilter[i].name, tabFilter[i].time, tabFilter[i].description, tabFilter[i].ingredients, tabFilter[i].x, tabFilter[i].appliance, tabFilter[i].ustensils);
+            storageTabfilter.push(CardRecipe);
+        }
+
+        for(i = 0; i < storageTabfilter.length; i++) {
+
+            if (storageTabfilter[i].ustensils.includes(filterClicked)) {
 
                 if (tabFilterAttribute == 0) {
                     tabFilter = [];
                     tabFilterAttribute++;
                 }
 
-                const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+                const CardRecipe = new SearchFilter(storageTabfilter[i].name, storageTabfilter[i].time, storageTabfilter[i].description, storageTabfilter[i].ingredients, storageTabfilter[i].x, storageTabfilter[i].appliance, storageTabfilter[i].ustensils);
                 tabFilter.push(CardRecipe);
     
-            } else if (element.appliance.includes(filterClicked)) {
+            } else if (storageTabfilter[i].appliance.includes(filterClicked)) {
 
                 if (tabFilterAttribute == 0) {
                     tabFilter = [];
                     tabFilterAttribute++;
                 }
             
-                const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+                const CardRecipe = new SearchFilter(storageTabfilter[i].name, storageTabfilter[i].time, storageTabfilter[i].description, storageTabfilter[i].ingredients, storageTabfilter[i].x, storageTabfilter[i].appliance, storageTabfilter[i].ustensils);
                 tabFilter.push(CardRecipe);
         
             }
-            
-            element.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.includes(filterClicked)) {
+            for(j = 0; j < storageTabfilter[i].ingredients.length; j++) {
+
+                if (storageTabfilter[i].ingredients[j].ingredient.includes(filterClicked)) {
 
                     if (tabFilterAttribute == 0) {
                         tabFilter = [];
                         tabFilterAttribute++;
                     }
                     
-                    const CardRecipe = new SearchFilter(element.name, element.time, element.description, element.ingredients, element.x, element.appliance, element.ustensils);
+                    const CardRecipe = new SearchFilter(storageTabfilter[i].name, storageTabfilter[i].time, storageTabfilter[i].description, storageTabfilter[i].ingredients, storageTabfilter[i].x, storageTabfilter[i].appliance, storageTabfilter[i].ustensils);
                     tabFilter.push(CardRecipe);
     
                 }
-            })
-        })
+            }
+        }
     }
 }
 
 
 
 /******************************Add NEW RECIPE WITH FILTER***********************/
+/**
+  for(i = 0; i < filterTab.length; i++) {
 
-function algoFilterRecipes() {
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+filterTab[i].name+'</h2><h5 class="recipeTime">'+filterTab[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+filterTab[i].x+'"></ul></div><div class="instruction">'+filterTab[i].description+'</div></div></div></article>'
 
-    const maptabFilter = tabFilter.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+        innerRecipe(mapfilterTab)
+    }
 
-    maptabFilter.forEach(e => innerFilterRecipe(e))
 
-    tabFilter.forEach(e => catchUlFilter(e)) 
+    for(i = 0;i < tabRecipes.length; i++) {
+
+        const ulID= tabRecipes[i]
+        catchUl(ulID)
+    }
+
+
+    for(i = 0; i < filterTab.length; i++) {
+
+        const filterTabAppliance = filterTab[i];
+        
+        innerAppliances(filterTabAppliance)
+
+        for(j = 0; j < filterTab[i].ingredients.length; j++) {
+
+            const filterTabIngredients = filterTab[i].ingredients[j].ingredient;
+            innerIngredients(filterTabIngredients)
+        }
+
+        for(j = 0; j < filterTab[i].ustensils.length; j++) {
+            
+            const filterTabUstensils = filterTab[i].ustensils[j];
+            innerUstensils(filterTabUstensils)
+        }
+    }
+
 }
 
-function innerFilterRecipe(e) {
 
-    article.innerHTML += e;
-}
 
-function catchUlFilter(e) {
+let ul;
 
-    if (document.querySelector("#ul"+e.x+"")) {
-        ul = document.querySelector("#ul"+e.x+"")
-        e.ingredients.forEach(el => innerUlFilter(el))
+function catchUl(ulID) {
+
+    if (document.querySelector("#ul"+ulID.x+"")) {
+        ul = document.querySelector("#ul"+ulID.x+"")
+
+        for(j = 0; j < ulID.ingredients.length; j++) {
+            ul.innerHTML += '<li>'+ulID.ingredients[j].ingredient+'</li>'
+        }
     }
 }
 
-function innerUlFilter(el) {
+function innerRecipe(mapfilterTab) {
 
-    ul.innerHTML += '<li>'+el.ingredient+'</li>'
+    article.innerHTML += mapfilterTab;
 }
+ 
+ */
+
+function algoFilterRecipes() {
+
+    for(i = 0; i < tabFilter.length; i++) {
+
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+tabFilter[i].name+'</h2><h5 class="recipeTime">'+tabFilter[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+tabFilter[i].x+'"></ul></div><div class="instruction">'+tabFilter[i].description+'</div></div></div></article>'
+
+        innerFilterRecipe(mapfilterTab)
+    }
+
+    for(i = 0;i < tabFilter.length; i++) {
+
+        const ulID= tabFilter[i]
+        catchUlFilter(ulID)
+    }
+
+
+    /*const maptabFilter = tabFilter.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+
+    maptabFilter.forEach(e => innerFilterRecipe(e))
+
+    tabFilter.forEach(e => catchUlFilter(e))*/
+}
+
+function innerFilterRecipe(mapfilterTab) {
+
+    article.innerHTML += mapfilterTab;
+}
+
+function catchUlFilter(ulID) {
+
+    if (document.querySelector("#ul"+ulID.x+"")) {
+        ul = document.querySelector("#ul"+ulID.x+"")
+
+        for(j = 0; j < ulID.ingredients.length; j++) {
+            ul.innerHTML += '<li>'+ulID.ingredients[j].ingredient+'</li>'
+        }
+    }
+}
+
 /*********************************************************************************/
 /********************************Add NEW FILTER IN DROPDOWN***********************/
 
@@ -795,8 +845,19 @@ function innerUlFilter(el) {
 function algoAddUstensilsFilter() {
 
     filterUstensils.innerHTML = ""
+    let i = 0;
+    while (i < tabFilter.length) {
+        let j = 0;
 
-    tabFilter.forEach(e => e.ustensils.forEach(ustensils => innerFilterUstensils(ustensils)))
+        while(j < tabFilter[i].ustensils.length) {
+
+            const ustensils = tabFilter[i].ustensils[j]
+            innerFilterUstensils(ustensils)
+            j++;
+        }
+        i++;
+    }
+    //tabFilter.forEach(e => e.ustensils.forEach(ustensils => innerFilterUstensils(ustensils)))
 
 }
 
@@ -816,7 +877,15 @@ function algoAddApplianceFilter() {
 
     filterAppliance.innerHTML = ""
 
-    tabFilter.forEach(e => innerFilterAppliances(e))
+    let i = 0;
+
+    while (i < tabFilter.length) {
+        const e = tabFilter[i]
+        innerFilterAppliances(e)
+        i++;
+    }
+
+    //tabFilter.forEach(e => innerFilterAppliances(e))
 
 }
 
@@ -836,7 +905,22 @@ function algoAddIngredientFilter() {
 
     filterIngredients.innerHTML = ""
 
-    tabFilter.forEach(e => e.ingredients.forEach(ingredients => innerFilterIngredients(ingredients)))
+    let i = 0;
+    
+    while (i < tabFilter.length) {
+        let j = 0;
+
+        while (j < tabFilter[i].ingredients.length) {
+            
+            const ingredients = tabFilter[i].ingredients[j];
+ 
+            innerFilterIngredients(ingredients)
+            j++;
+        }
+        i++;
+    }
+
+    //tabFilter.forEach(e => e.ingredients.forEach(ingredients => innerFilterIngredients(ingredients)))
 
 }
 
@@ -917,43 +1001,82 @@ function algoFunctionnalRecipesDropdownIngredients(inputIngredients) {
     let filterTab = []
     
     if (filterOn == 0) {
-        
-        tabRecipes.forEach(e => {
+
+        for(x = 0; x < tabRecipes.length; x++) {
             let i = 0;
 
-            e.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.toLowerCase().includes(inputIngredients.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    tabInputFilterSearch.push(ingredients.ingredient)
+            for (y = 0; y < tabRecipes[x].ingredients.length; y++) {
+
+                if (tabRecipes[x].ingredients[y].ingredient.toLowerCase().includes(inputIngredients.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabRecipes[x])
+                    tabInputFilterSearch.push(tabRecipes[x].ingredients[y].ingredient)
                 }
-            })
-        })
+            }
+        }
     } else {
-        tabFilter.forEach(e => {
+
+        for (x = 0; x < tabFilter.length; x++) {
             let i = 0;
-    
-            e.ingredients.forEach(ingredients => {
-                if (ingredients.ingredient.toLowerCase().includes(inputIngredients.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    tabInputFilterSearch.push(ingredients.ingredient)
+
+            for(y = 0; y < tabFilter[x].ingredients.length; y++) {
+
+                if (tabFilter[x].ingredients[y].ingredient.toLowerCase().includes(inputIngredients.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabFilter[x])
+                    tabInputFilterSearch.push(tabFilter[x].ingredients[y].ingredient)
                 }
-            })
-        })
+
+            }
+        }
     }
 
     
+    for(i = 0; i < filterTab.length; i++) {
 
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+filterTab[i].name+'</h2><h5 class="recipeTime">'+filterTab[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+filterTab[i].x+'"></ul></div><div class="instruction">'+filterTab[i].description+'</div></div></div></article>'
+
+        innerRecipe(mapfilterTab)
+    }
+
+    for(i = 0;i < tabRecipes.length; i++) {
+
+        const ulID= tabRecipes[i]
+        catchUl(ulID)
+    }
+     
+
+    
+
+    /*const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
 
     mapfilterTab.forEach(e => innerRecipe(e))
 
-    tabRecipes.forEach(e => catchUl(e))
+    tabRecipes.forEach(e => catchUl(e))*/
 
     /*****************************Filters**********************************/
 
-    filterTab.forEach(e => innerAppliances(e))
-    filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
-    tabInputFilterSearch.forEach(ingredients => innerIngredientsFilterInput(ingredients))
+    for(i = 0; i < filterTab.length; i++) {
+
+        const filterTabAppliance = filterTab[i];
+        
+        innerAppliances(filterTabAppliance)
+
+        for(j = 0; j < filterTab[i].ustensils.length; j++) {
+            
+            const filterTabUstensils = filterTab[i].ustensils[j];
+            innerUstensils(filterTabUstensils)
+        }
+    }
+
+    for (i = 0; i < tabInputFilterSearch.length; i++) {
+
+        const e = tabInputFilterSearch[i];
+        innerIngredientsFilterInput(e)
+    }
+    
+
+    //filterTab.forEach(e => innerAppliances(e))
+    //filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
+    //tabInputFilterSearch.forEach(ingredients => innerIngredientsFilterInput(ingredients))
 
 }
 
@@ -970,8 +1093,6 @@ function innerIngredientsFilterInput(ingredients) {
 }
 
 //Algo Appliance Input
-
-//let tabInputFilterSearch = []
 
 function searchAlgoFilterDropdownAppliances(inputAppliances) {
 
@@ -1033,39 +1154,77 @@ function algoFunctionnalRecipesDropdownAppliances(inputAppliances) {
     let filterTab = []
     
     if (filterOn == 0) {
-        
-        tabRecipes.forEach(e => {
+
+        for(x = 0; x < tabRecipes.length; x++) {
+
             let i = 0;
-            if (e.appliance.toLowerCase().includes(inputAppliances.value.toLowerCase())) {
-                filterTab.push(e)
-                tabInputFilterSearch.push(e.appliance)
+
+            if (tabRecipes[x].appliance.toLowerCase().includes(inputAppliances.value.toLowerCase())) {
+                filterTab.push(tabRecipes[x])
+                tabInputFilterSearch.push(tabRecipes[x].appliance)
                 i++;
             }
-        })
+        }
     } else {
-        tabFilter.forEach(e => {
+
+        for(x = 0; x < tabFilter.length; x++) {
+
             let i = 0;
-            if (e.appliance.toLowerCase().includes(inputAppliances.value.toLowerCase())) {
-                filterTab.push(e)
-                tabInputFilterSearch.push(e.appliance)
+            if (tabRecipes[x].appliance.toLowerCase().includes(inputAppliances.value.toLowerCase())) {
+                filterTab.push(tabRecipes[x])
+                tabInputFilterSearch.push(tabRecipes[x].appliance)
                 i++;
             }
-        })
+        }
+    }
+
+    for(i = 0; i < filterTab.length; i++) {
+
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+filterTab[i].name+'</h2><h5 class="recipeTime">'+filterTab[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+filterTab[i].x+'"></ul></div><div class="instruction">'+filterTab[i].description+'</div></div></div></article>'
+
+        innerRecipe(mapfilterTab)
+    }
+
+    for(i = 0;i < tabRecipes.length; i++) {
+
+        const ulID= tabRecipes[i]
+        catchUl(ulID)
     }
 
     
 
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+    /*const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
 
     mapfilterTab.forEach(e => innerRecipe(e))
 
-    tabRecipes.forEach(e => catchUl(e))
+    tabRecipes.forEach(e => catchUl(e))*/
 
     /*****************************Filters**********************************/
 
-    tabInputFilterSearch.forEach(e => innerAppliancesFilterInput(e))
-    filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
-    filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
+    for(i = 0; i < filterTab.length; i++) {
+
+        for(j = 0; j < filterTab[i].ingredients.length; j++) {
+
+            const filterTabIngredients = filterTab[i].ingredients[j].ingredient;
+            innerIngredients(filterTabIngredients)
+        }
+
+        for(j = 0; j < filterTab[i].ustensils.length; j++) {
+            
+            const filterTabUstensils = filterTab[i].ustensils[j];
+            innerUstensils(filterTabUstensils)
+        }
+    }
+
+    for (i = 0; i < tabInputFilterSearch.length; i++) {
+
+        const e = tabInputFilterSearch[i];
+        innerAppliancesFilterInput(e)
+    }
+
+    //tabInputFilterSearch.forEach(e => innerAppliancesFilterInput(e))
+    //filterTab.forEach(e => e.ustensils.forEach(ustensils => innerUstensils(ustensils)))
+    //filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
 
 }
 
@@ -1081,8 +1240,6 @@ function innerAppliancesFilterInput(e) {
 
 
 //Algo Ustensils Input
-
-//let tabInputFilterSearch = []
 
 function searchAlgoFilterDropdownUstensils(inputUstensils) {
 
@@ -1144,42 +1301,79 @@ function algoFunctionnalRecipesDropdownUstensils(inputUstensils) {
     let filterTab = []
     
     if (filterOn == 0) {
-        
-        tabRecipes.forEach(e => {
+
+        for(x = 0; x < tabRecipes.length; x++) {
+
             let i = 0;
-    
-            e.ustensils.forEach(ustensils => {
-                if (ustensils.toLowerCase().includes(inputUstensils.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    tabInputFilterSearch.push(ustensils)
+
+            for(y = 0; y < tabRecipes[x].ustensils.length; y++) {
+
+                if (tabRecipes[x].ustensils[y].toLowerCase().includes(inputUstensils.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabRecipes[x])
+                    tabInputFilterSearch.push(tabRecipes[x].ustensils[y])
                 }
-            })
-        })
+            }
+        }
     } else {
-        tabFilter.forEach(e => {
+
+        for(x = 0; x < tabFilter.length; x++) {
+
             let i = 0;
-    
-            e.ustensils.forEach(ustensils => {
-                if (ustensils.toLowerCase().includes(inputUstensils.value.toLowerCase()) && i == 0) {
-                    filterTab.push(e)
-                    tabInputFilterSearch.push(ustensils)
+
+            for(y = 0; y < tabFilter[x].ustensils.length; y++) {
+
+                if (tabFilter[x].ustensils[y].toLowerCase().includes(inputUstensils.value.toLowerCase()) && i == 0) {
+                    filterTab.push(tabFilter[x])
+                    tabInputFilterSearch.push(tabFilter[x].ustensils[y])
                 }
-            })
-        })
+            }
+        }
+    }
+
+    for(i = 0; i < filterTab.length; i++) {
+
+        const mapfilterTab = '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+filterTab[i].name+'</h2><h5 class="recipeTime">'+filterTab[i].time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+filterTab[i].x+'"></ul></div><div class="instruction">'+filterTab[i].description+'</div></div></div></article>'
+
+        innerRecipe(mapfilterTab)
+    }
+
+    for(i = 0;i < tabRecipes.length; i++) {
+
+        const ulID= tabRecipes[i]
+        catchUl(ulID)
     }
     
 
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
+    /*const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
 
     mapfilterTab.forEach(e => innerRecipe(e))
 
-    tabRecipes.forEach(e => catchUl(e))
+    tabRecipes.forEach(e => catchUl(e))*/
 
     /*****************************Filters**********************************/
 
-    filterTab.forEach(e => innerAppliances(e))
-    tabInputFilterSearch.forEach(e => innerUstensilsFilterInput(e))
-    filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
+    for(i = 0; i < filterTab.length; i++) {
+
+        const filterTabAppliance = filterTab[i];
+        
+        innerAppliances(filterTabAppliance)
+
+        for(j = 0; j < filterTab[i].ingredients.length; j++) {
+
+            const filterTabIngredients = filterTab[i].ingredients[j].ingredient;
+            innerIngredients(filterTabIngredients)
+        }
+    }
+
+    for (i = 0; i < tabInputFilterSearch.length; i++) {
+
+        const e = tabInputFilterSearch[i];
+        innerUstensilsFilterInput(e)
+    }
+
+    //filterTab.forEach(e => innerAppliances(e))
+    //tabInputFilterSearch.forEach(e => innerUstensilsFilterInput(e))
+    //filterTab.forEach(e => e.ingredients.forEach(ingredients => innerIngredients(ingredients)))
 
 }
 
