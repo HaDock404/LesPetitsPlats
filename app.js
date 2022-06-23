@@ -131,11 +131,6 @@ class UstensilsFilter {
     }
 }
 
-
-
-
-
-
 /**************Class Object give file for the Class Legacy**************/
 class App {
     constructor() {
@@ -188,9 +183,6 @@ app.ingredientsFilter();
 app.appliancesFilter();
 app.ustensilsFilter();
 
-
-
-
 /***********************Table for checking Data*********************************/
 
 class SearchRecipe {
@@ -205,8 +197,6 @@ class SearchRecipe {
     }
 }
 
-
-
 class SearchFilter {
     constructor(name, time, description, ingredients, x, appliance, ustensils) {
         this.name = name;
@@ -219,15 +209,12 @@ class SearchFilter {
     }
 }
 
-
-
-
-
 /**************************Search Recipes NEW ALGO *****************************/
 
 
 const input = document.querySelector("#search-recipe");
 const article = document.getElementById("recipes");
+const error = document.getElementById("error-text")
 const filterIngredients = document.querySelector("#ingredients-list")
 const filterAppliance = document.querySelector("#appliances-list")
 const filterUstensils = document.querySelector("#ustensils-list")
@@ -253,19 +240,6 @@ function checkNumberChar() {
     }
 }
 
-/*function algoFunctionnalRecipes() {
-
-    const filterTab = tabRecipes.filter(e => e.name.toLowerCase().includes(input.value.toLowerCase()));
-
-
-    const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
-
-    mapfilterTab.forEach(e => innerRecipe(e))
-
-    tabRecipes.forEach(e => catchUl(e))   
-
-}*/
-
 /*******************************Test Algo*************************************/
 let filterOn = 0
 
@@ -288,7 +262,6 @@ function algoFunctionnalRecipes() {
             e.ingredients.forEach(ingredients => {
                 if (ingredients.ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
                     filterTab.push(e)
-                    //console.log("ok")
                 }
             })
         })
@@ -306,13 +279,17 @@ function algoFunctionnalRecipes() {
             e.ingredients.forEach(ingredients => {
                 if (ingredients.ingredient.toLowerCase().includes(input.value.toLowerCase()) && i == 0) {
                     filterTab.push(e)
-                    //console.log("ok")
-                }
+                } 
             })
         })
     }
+
+    if (filterTab.length == 0) {
+        error.innerHTML = '<p>Aucune recette ne correspond à votre critère… vous pouvez chercher "tarte aux pommes", "poisson", etc</p>'
+    } else {
+        error.innerHTML = ""
+    }
     //console.log(filterTab)
-    
 
     const mapfilterTab = filterTab.map(e => '<article><div class="picture"></div><div class="info"><div class="recipeTitle"><h2 class="recipeName">'+e.name+'</h2><h5 class="recipeTime">'+e.time+' min</h5></div><div class="recipeInstruction"><div class="ingredients"><ul id="ul'+e.x+'"></ul></div><div class="instruction">'+e.description+'</div></div></div></article>')
 
@@ -360,8 +337,6 @@ function innerIngredients(ingredients) {
         filterIngredients.innerHTML += '<li class="ingredientClass">'+ingredients.ingredient+'</li>';
         tabInnerFilterWithSearch.push(ingredients.ingredient)
     }
-
-    
 }
 
 function innerAppliances(e) {
@@ -382,8 +357,6 @@ function innerUstensils(ustensils) {
         filterUstensils.innerHTML += '<li class="ustensilsClass">'+ustensils+'</li>';
         tabInnerFilterWithSearch.push(ustensils)
     }
-    
-    
 }
 
 /*****************************************************************************/
@@ -404,7 +377,6 @@ function removeAllInnerRecipes() {
             filterUstensils.removeChild(filterUstensils.firstChild);
           }
     }
-    
 }
 
 function refreshPage() {
@@ -412,6 +384,7 @@ function refreshPage() {
     if (input.value.length == 0) {
         tabRecipes = [];
         tabFilterLoading = [];
+        error.innerHTML = ""
 
         app.main()
         app.ingredientsFilter();
@@ -503,8 +476,6 @@ function addFilter(e) {//check kind of filter is clicked
     }
 }
 
-
-
 /******************************Remove function for the filter********************/
 /********************************************************************************/
 
@@ -512,12 +483,8 @@ let filterClassName;
 let filterTextContent;
 
 function removeFilter(Span) {
-    console.log(Span)
-    //firefox
-    Span.composedPath()[1].remove();
 
-    //chrome
-    //Span.path[1].remove();
+    Span.composedPath()[1].remove();
 
     numberOfFilter = 0;
     
@@ -567,46 +534,6 @@ function removeFilter(Span) {
             i++;
         }
     }
-
-
-    /*if (Span.path[2].childNodes.length == 0) {
-
-        article.innerHTML = ""
-
-        tabRecipes = []
-        tabFilterLoading = [];
-        filterOn = 0;
-
-        app.main();
-        app.ingredientsFilter();
-        app.appliancesFilter();
-        app.ustensilsFilter();
-
-    } else {
-
-        let i = 0;
-        let NumberOfFilterlength = Span.path[2].childNodes.length;
-
-        while (i < NumberOfFilterlength) {
-
-            let string = Span.path[2].childNodes[i].innerText.slice(0, -2);
-
-            filterTextContent = string;
-
-            filterClassName = Span.path[2].childNodes[i].className
-
-            addFilterAfterRemove()
-
-            i++;
-        }
-
-        i = 0;
-        while (i < NumberOfFilterlength) {
-            //console.log(Span.path[2].childNodes[i])
-            Span.path[2].childNodes[0].remove()
-            i++;
-        }
-    }*/
 }
 
 function addFilterAfterRemove() {
@@ -689,8 +616,6 @@ function algoFilter() {
 let tabFilterAttribute = 0;
 
 function checkTypeOfFilter() {
-    //console.log(numberOfFilter)
-    //console.log(filterClicked)
 
     if (numberOfFilter == 1) {
         
@@ -756,8 +681,6 @@ function checkTypeOfFilter() {
         })
     }
 }
-
-
 
 /******************************Add NEW RECIPE WITH FILTER***********************/
 
@@ -971,8 +894,6 @@ function innerIngredientsFilterInput(ingredients) {
 
 //Algo Appliance Input
 
-//let tabInputFilterSearch = []
-
 function searchAlgoFilterDropdownAppliances(inputAppliances) {
 
     dropdownCheckNumberInputAppliances(inputAppliances)
@@ -1081,8 +1002,6 @@ function innerAppliancesFilterInput(e) {
 
 
 //Algo Ustensils Input
-
-//let tabInputFilterSearch = []
 
 function searchAlgoFilterDropdownUstensils(inputUstensils) {
 

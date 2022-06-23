@@ -490,3 +490,8 @@ ul {
 .ustensilsColor {
     background-color: #ED6454;
 }
+
+p {
+    color: red;
+    font-weight: bold;
+}
