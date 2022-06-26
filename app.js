@@ -222,7 +222,7 @@ const filterUstensils = document.querySelector("#ustensils-list")
 input.onkeyup = function (e) {
 
     checkNumberChar()
-    removeAllInnerRecipes()
+    //removeAllInnerRecipes()
     refreshPage()
 }
 
